@@ -168,3 +168,20 @@
 .flex-between {
   @apply flex justify-between items-center;
 }
+
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ea580c;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #eab308;
+}
