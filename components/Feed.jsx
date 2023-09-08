@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 import PromptCard from "./PromptCard";
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
-    <div className='mt-8 prompt_layout'>
+    <div className='mt-5 prompt_layout'>
       {data.map((post) => (
         <PromptCard
           key={post._id}
@@ -72,13 +73,31 @@ const Feed = () => {
       <form className='relative w-full flex-center'>
         <input
           type='text'
-          placeholder='Search for a tag or a username'
+          placeholder='Search for prompt, tag or username'
           value={searchText}
           onChange={handleSearchChange}
           required
           className='search_input peer'
         />
       </form>
+
+      {allPosts.length===0 && (
+        <div className='w-full flex-center mt-2'>
+          <Image
+            src='/assets/icons/loader.svg'
+            width={50}
+            height={50}
+            alt='loader'
+            className='object-contain'
+          />
+        </div>
+        )}
+
+      {searchText && (
+        searchedResults.length===0 && (
+          <p className='desc text-center'>No Propmts Found!</p>
+        )
+      )}
 
       {/* All Prompts */}
       {searchText ? (

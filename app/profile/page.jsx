@@ -12,10 +12,23 @@ const MyProfile = () => {
 
   const [myPosts, setMyPosts] = useState([]);
 
+  const [noPost, setNoPost] = useState(false);
+
+  useEffect(() => {
+    if(!session){
+      router.push('/')
+    }
+
+  }, []);
+
   useEffect(() => {
     const fetchPosts = async () => {
       const response = await fetch(`/api/users/${session?.user.id}/posts`);
       const data = await response.json();
+
+      if(data.length===0){
+        setNoPost(true)
+      }
 
       setMyPosts(data);
     };
@@ -54,6 +67,7 @@ const MyProfile = () => {
       data={myPosts}
       handleEdit={handleEdit}
       handleDelete={handleDelete}
+      noPost={noPost}
     />
   );
 };

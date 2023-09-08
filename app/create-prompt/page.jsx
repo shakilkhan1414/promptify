@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Form from "@/components/Form"
@@ -8,6 +8,13 @@ import Form from "@/components/Form"
 const page = () => {
   const router=useRouter()
   const {data: session}=useSession()
+
+  useEffect(() => {
+    if(!session){
+      router.push('/')
+    }
+
+  }, []);
 
     const [submitting,setSubmitting]=useState(false)
     const [post,setPost]=useState({
@@ -30,7 +37,7 @@ const page = () => {
         })
 
         if (response.ok) {
-          router.push("/");
+          router.push("/profile");
         }
 
       }

@@ -71,6 +71,14 @@
   }
 }
 
+.nopost{
+  @apply mt-5 text-lg text-gray-600 sm:text-xl;
+}
+
+.new-prompt{
+  display: inline-block;
+}
+
 /* Tailwind Styles */
 
 .app {
@@ -168,6 +176,7 @@
 .flex-between {
   @apply flex justify-between items-center;
 }
+
 
 
 ::-webkit-scrollbar {
