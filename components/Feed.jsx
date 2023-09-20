@@ -27,26 +27,38 @@ const Feed = () => {
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState([]);
 
-  const fetchPosts = async () => {
-    try {
-      const response = await fetch("/api/prompt");
+  const fetchPosts = async (maxRetries = 3) => {
+    let retries = 0;
   
-      if (!response.ok) {
-        console.log('Not okay')
-        throw new Error(`Fetch failed with status ${response.status}`);
+    while (retries < maxRetries) {
+      try {
+        const response = await fetch("/api/prompt");
+  
+        if (!response.ok) {
+          console.log('Not okay, retrying...');
+          retries++;
+          if (retries === maxRetries) {
+            throw new Error(`Fetch failed after ${maxRetries} retries with status ${response.status}`);
+          }
+        } else {
+          const data = await response.json();
+          setAllPosts(data);
+          break; 
+        }
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        retries++;
+        if (retries === maxRetries) {
+          throw new Error(`Fetch failed after ${maxRetries} retries: ${error}`);
+        }
       }
-  
-      const data = await response.json();
-      setAllPosts(data);
-    } catch (error) {
-      console.error("Error fetching posts:", error);
     }
   };
   
-
   useEffect(() => {
     fetchPosts();
   }, []);
+  
 
   const filterPrompts = (searchtext) => {
     const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
