@@ -27,7 +27,7 @@ const Feed = () => {
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState([]);
 
-  const fetchPosts = async (maxRetries = 3) => {
+  const fetchPosts = async (maxRetries = 300) => {
     let retries = 0;
   
     while (retries < maxRetries) {
