@@ -27,34 +27,18 @@ const Feed = () => {
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState([]);
 
-  const fetchPosts = async (maxRetries = 300) => {
-    let retries = 0;
-  
-    while (retries < maxRetries) {
-      try {
-        const response = await fetch("/api/prompt");
-  
-        if (!response.ok) {
-          console.log('Not okay, retrying...');
-          retries++;
-          if (retries === maxRetries) {
-            throw new Error(`Fetch failed after ${maxRetries} retries with status ${response.status}`);
-          }
-        } else {
-          const data = await response.json();
-          setAllPosts(data);
-          break; 
-        }
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        retries++;
-        if (retries === maxRetries) {
-          throw new Error(`Fetch failed after ${maxRetries} retries: ${error}`);
-        }
-      }
+  const fetchPosts = async () => {
+    const response = await fetch("/api/prompt");
+
+    if (!response.ok) {
+      window.location.reload()
     }
+
+    const data = await response.json();
+
+    setAllPosts(data);
   };
-  
+
   useEffect(() => {
     fetchPosts();
   }, []);
